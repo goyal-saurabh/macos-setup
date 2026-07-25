@@ -1,6 +1,6 @@
 [user]
-	name = Viraj Patel
-  email = 3125954+virajp@users.noreply.github.com
+	name = Saurabh Goyal
+	email = 44016860+goyal-saurabh@users.noreply.github.com
   signingkey = ~/.ssh/github_signing.pub
 
 # [includeIf "hasconfig:remote.*.url:git@github.com:*/**"]
@@ -18,7 +18,7 @@
 [core]
 	autocrlf = input
 	editor = $HOMEBREW_PREFIX/bin/code
-	excludesfile = /Users/virajpatel/.gitignore_global
+	excludesfile = /Users/saurabhgoyal/.gitignore_global
 	filemode = false
 
 [push]
@@ -99,7 +99,7 @@
 
 [gpg "ssh"]
 	program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
-	allowedSignersFile = /Users/virajpatel/.ssh/allowed_signers
+	allowedSignersFile = /Users/saurabhgoyal/.ssh/allowed_signers
 
 [tag]
 	forceSignAnnotated = true

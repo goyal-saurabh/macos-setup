@@ -45,5 +45,35 @@
   "server": {
     "port": 4096
   },
-  "watcher": {}
+  "watcher": {},
+  "skills": {
+    "paths": [
+      "~/.config/opencode/virajp-plugins"
+    ]
+  },
+  "lsp": {
+    "typescript": {
+      "command": [
+        "mise",
+        "x",
+        "--",
+        "pnpm",
+        "--package=typescript",
+        "--package=typescript-language-server",
+        "dlx",
+        "typescript-language-server",
+        "--stdio"
+      ],
+      "extensions": [
+        ".cjs",
+        ".cts",
+        ".js",
+        ".jsx",
+        ".mjs",
+        ".mts",
+        ".ts",
+        ".tsx"
+      ]
+    }
+  }
 }
