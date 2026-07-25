@@ -12,11 +12,11 @@
 # Usage:
 #   ./setup
 #   # or bootstrap a fresh machine directly from the public repo:
-#   /bin/zsh -c "$(curl -fsSL https://raw.githubusercontent.com/virajp/macos-setup/main/setup)"
+#   /bin/zsh -c "$(curl -fsSL https://raw.githubusercontent.com/goyal-saurabh/macos-setup/main/setup)"
 #
 # Steps (Tasks):
 # - First check whether `brew` is installed, if not then install it
-# - Clone the repo to ~/Projects/github.com/virajp/macos-setup if it's missing
+# - Clone the repo to ~/Projects/github.com/goyal-saurabh/macos-setup if it's missing
 # - Check whether everything is fine with brew using `brew doctor` command
 # - Check whether anything needs to be installed using `brew bundle check` command
 # - Install all tools from `Brewfile` using `brew bundle install --upgrade` command, if needed
@@ -36,8 +36,8 @@ readonly INSTALL_EMOJI="🚀"
 readonly PACKAGE_EMOJI="📦"
 readonly CHECK_EMOJI="🩺"
 
-readonly REPO_URL="https://github.com/virajp/macos-setup.git"
-readonly REPO_DIR="${HOME}/Projects/github.com/virajp/macos-setup"
+readonly REPO_URL="https://github.com/goyal-saurabh/macos-setup.git"
+readonly REPO_DIR="${HOME}/Projects/github.com/goyal-saurabh/macos-setup"
 
 if ! command -v brew &> /dev/null; then
   echo "${INSTALL_EMOJI} Homebrew not found. Installing..."
