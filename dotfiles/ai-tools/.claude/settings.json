@@ -5,7 +5,8 @@
   "env": {
     "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1",
     "CLAUDE_INSTALL_METHOD": "other",
-    "DISABLE_AUTOUPDATER": "1"
+    "DISABLE_AUTOUPDATER": "1",
+    "AI_PLUGINS_USAGE_DIR": "${HOME}/.claude/usage"
   },
   "includeCoAuthoredBy": true,
   "permissions": {
@@ -59,6 +60,14 @@
             "type": "command",
             "command": "if [ -f '/Users/virajpatel/.orca/agent-hooks/claude-hook.sh' ] && [ -r '/Users/virajpatel/.orca/agent-hooks/claude-hook.sh' ] && [ -x '/Users/virajpatel/.orca/agent-hooks/claude-hook.sh' ]; then /bin/sh '/Users/virajpatel/.orca/agent-hooks/claude-hook.sh'; else cat >/dev/null 2>&1 || :; fi",
             "timeout": 10
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node ${HOME}/.claude/hooks/context-caps.js"
           }
         ]
       }
@@ -174,7 +183,8 @@
     "mise@virajp-plugins": true,
     "typescript@virajp-plugins": true,
     "vwf@virajp-plugins": true,
-    "warp@claude-code-warp": true
+    "warp@claude-code-warp": true,
+    "notion@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
     "claude-code-warp": {
