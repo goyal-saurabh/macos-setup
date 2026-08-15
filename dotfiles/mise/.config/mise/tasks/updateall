@@ -55,4 +55,7 @@ mise run upgrade:macos:download
 
 mise run upgrade:ai
 
+mise run mempalace:update
+mise run mempalace:restart
+
 print_header "Setup complete!"
