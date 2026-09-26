@@ -1,0 +1,47 @@
+wing: macos-setup
+exclude_patterns: # secrets first, then trees not worth mining
+  - .env*
+  - "*.pem"
+  - "*.key"
+  - "*.p12"
+  - "*credentials*"
+  - "*secret*"
+  - .doppler/
+  - .git/
+  - node_modules/
+  - dist/
+  - brewfile.gen
+  - .claude/settings.local.json
+rooms:
+  - name: decisions
+    description: Design/architecture decisions and the why
+    keywords: [ decisions, decision ]
+  - name: problems
+    description: Review/security findings and how they were resolved
+    keywords: [ problems, problem ]
+  - name: planning
+    description: Plan rationale and deferred options
+    keywords: [ planning, plans ]
+  - name: gaps
+    description: Blueprint/plan holes surfaced during execution and how they
+      were reconciled
+    keywords: [ gaps, gap ]
+  - name: runs
+    description: Execute run journal — dependency order and per-step progress
+    keywords: [ runs ]
+  - name: doctor
+    description: vwf doctor findings per run
+    keywords: [ doctor ]
+  - name: handoff
+    description: Session handoffs from docs/memory/handoff/
+    keywords: [ handoff, handoffs, session ]
+  - name: dotfiles
+    description: Stow-managed dotfiles packages under dotfiles/
+    keywords: [ dotfiles, stow ]
+  - name: utils
+    description: macOS system setup scripts (defaults, pmset, nvram) under
+      utils/
+    keywords: [ utils ]
+  - name: general
+    description: Files that don't fit other rooms
+    keywords: []
