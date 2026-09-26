@@ -43,6 +43,7 @@ brewfile.gen
 
 # Graphify
 **/.graphify_version
+graphify-out/
 
 # ============================================================
 # vwf memory (mempalace) — developer-local rooms
