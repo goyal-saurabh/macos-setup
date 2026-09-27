@@ -23,7 +23,6 @@ jq               = { version = "latest" }
 node             = { version = "latest" }
 "pipx:graphifyy" = { uvx = true, version = "latest" }
 "pipx:mempalace" = { uvx = true, version = "latest" }
-pitchfork        = { version = "latest" }
 pnpm             = { version = "latest" }
 python           = { version = "latest" }
 rtk              = { version = "latest" }

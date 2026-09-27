@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-#MISE description="Show mempalace status"
-
-set -e
-source "${HOME}/.config/mise/tasks/_scripts/_helpers"
-
-pitchfork status --json global/mempalace-qdrant
-pitchfork status --json global/mempalace-mcp

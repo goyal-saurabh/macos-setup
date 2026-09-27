@@ -5,6 +5,8 @@
 set -e
 source "${HOME}/.config/mise/tasks/_scripts/_helpers"
 
-print_header "Stopping mempalace ..."
-# Tolerate "not running" (e.g. first-ever run before it's ever been started).
-pitchfork stop mempalace-mcp || true
+print_header "Stopping qdrant (mempalace) ... "
+mise x --silent -- docker compose --file "${HOME}/.config/mempalace/docker-compose.yaml" down
+
+print_wait "Stopping mempalace hub ... "
+mise x --silent -- launchctl stop dev.mise.mempalace-hub && print_success
