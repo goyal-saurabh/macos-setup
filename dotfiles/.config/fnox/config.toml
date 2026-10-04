@@ -28,8 +28,3 @@ value    = "GITHUB_API_TOKEN"
 env      = "exec"
 provider = "global"
 value    = "CONTEXT7_API_KEY"
-
-[profiles.mempalace.secrets.HF_TOKEN]
-env      = "exec"
-provider = "global"
-value    = "HF_TOKEN"
