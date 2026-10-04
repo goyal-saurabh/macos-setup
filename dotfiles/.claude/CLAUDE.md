@@ -30,7 +30,9 @@ Bias toward caution over speed — use judgment for trivial tasks.
 
 ## Shell Aliases
 
-Defined in one place: the `[shell_alias]` block of `~/.config/mise/conf.d/utils.toml`.
+Defined only in the `[shell_alias]` blocks of `~/.config/mise/conf.d/*.toml`
+(one per topic; the shadowing ones are in `cli.toml`, `network.toml`, `git.toml`
+and `devtools.toml`).
 The fish and zsh configs define no aliases of their own. mise activates in
 non-interactive shells too, so these apply to tool-invoked commands — not just
 the interactive prompt.
@@ -41,6 +43,7 @@ Aliases that shadow standard commands (use `command <name>` to bypass):
 | ---------------------- | --------------- | --------------------------------------- |
 | `ls`, `ld`, `lf`, `lg` | `eza`           | icons and columns differ from coreutils |
 | `td`, `tg`, `tl`       | `eza --tree`    | recursive by default                    |
+| `cat`                  | `bat`           | decorations and color are always on, even when piped |
 | `cd`                   | `z` (zoxide)    | jumps by frecency, not by literal path  |
 | `diff`                 | `diff-so-fancy` | no unified diff, no diff exit codes     |
 | `ping`                 | `prettyping`    |                                         |

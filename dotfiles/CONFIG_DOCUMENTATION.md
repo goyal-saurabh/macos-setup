@@ -105,10 +105,11 @@ API calls use `[settings.github] use_git_credentials`.
 settings, see **Link map**); everything else is split by topic across
 `conf.d/*.toml`, each carrying its topic's `[tools]`, `[env]`, `[settings]` and
 `[shell_alias]`. `node.toml` sets `pnpm` as the npm package manager;
-`python.toml` installs `pipx:*` tools with `uvx` (`pipx.uvx = true`). Most
-`[shell_alias]` shortcuts live in `utils.toml` — including `updateall`,
-`osx-upgrade`, IP helpers (`ipv4`, `gateway`, …), and cleanup tasks. The task
-scripts themselves live under `.config/mise/tasks/`.
+`python.toml` installs `pipx:*` tools with `uvx` (`pipx.uvx = true`). Each
+`[shell_alias]` shortcut lives with its topic — `updateall`, `osx-upgrade` and
+the cleanup tasks in `system.toml`, IP helpers (`ipv4`, `gateway`, …) in
+`network.toml`, the `ls`/`cd` replacements in `cli.toml`. The task scripts
+themselves live under `.config/mise/tasks/`.
 
 mise is the single source of truth for **environment variables, aliases and
 shell functions**. Neither shell defines its own — there is no `aliases.sh` or
@@ -156,10 +157,13 @@ pulls the qdrant image weekly from `updateall`. See
 ## Git
 
 Personal values live only in `[vars]` of `.config/mise/conf.d/identity.toml`
-(name, GitHub/GitLab emails, signing key, ssh user). The files that carry them
-are Tera templates, rendered into `$HOME` by `mise bootstrap` as plain files,
-not symlinks — edit the template or the vars, then
-`mise bootstrap --only dotfiles`. `.config/git/config` always includes
+(name, GitHub/GitLab emails, signing key, ssh user, projects folder, 1Password
+vault, gh editor, pnpm cooldown exemptions). The files that carry them are Tera
+templates, rendered into `$HOME` by `mise bootstrap` as plain files, not
+symlinks — edit the template or the vars, then `mise bootstrap --only dotfiles`
+(or `--only files` for the pnpm and gh config). `projects_dir` also sets
+`PROJECTS_DIR` (`cli.toml`), which `cdgh`, `cleanupDS-Projects` and `updateall`
+use, and the `gitdir:` rules in `identity`. `.config/git/config` always includes
 `identity`, which holds the `[user]` identity and includes the host-specific
 configs conditionally (`github.config`, `gitlab.config`). The global ignore file
 is `.config/git/ignore`, and commit signatures are verified against
@@ -213,9 +217,16 @@ topic:
 - `claude.toml` — the `virajp/tap` tap, `claude-status` (the Claude Code status
   line), the Claude casks and the `~/.claude` links.
 - `git.toml`, `node.toml` — the gh and pnpm config files.
-- `devtools.toml`, `python.toml`, `1password.toml`, `starship.toml`,
-  `fonts.toml`, `utils.toml`, `extras.toml`, `env.toml`, `system.toml` — tools,
-  packages, env, aliases and links for their topic.
+- `terminal.toml` — ghostty, warp, starship and the Nerd Fonts.
+- `cli.toml` — command-line tools and the aliases that shadow standard commands.
+- `network.toml` — DNS/ping/IP tools and their aliases.
+- `containers.toml` — Docker/k8s aliases, Docker, Helm and GCP env.
+- `security.toml` — 1Password, fnox and the SSH config.
+- `devtools.toml` — TestFlight, editors, dprint/taplo and dev env.
+- `macos-apps.toml` — desktop and App Store apps.
+- `system.toml` — mas, ruby, usage, system utility apps, the `~/.config/mise`
+  link, Homebrew env and the maintenance aliases.
+- `python.toml` — python, uv and the pipx-through-uv settings.
 
 The `pmset`/`nvram` power profile is the `upgrade:power` task; mise has no
 declaration for it.

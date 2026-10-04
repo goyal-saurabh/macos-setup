@@ -1,7 +1,3 @@
-# Required by mise to parse the brew-cask correctly
-[tools.ruby]
-version = "latest"
-
 # AI tools
 [tools.claude-code]
 version = "latest"

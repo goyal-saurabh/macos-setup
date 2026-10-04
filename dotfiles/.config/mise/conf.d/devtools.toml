@@ -1,29 +1,15 @@
 # Packages to be installed via Homebrew
 [bootstrap.packages]
 # Formulaes
-"brew:fnox"  = "latest" # Secrets manager
 "brew:gnupg" = "latest" # GNU Privacy Guard for encryption and signing
+"brew:lcov"  = "latest" # Code coverage tool for C/C++
 
 # Casks
-"brew-cask:notion"             = "latest" # App to write, plan, collaborate, and get organised
-"brew-cask:obsidian"           = "latest" # Knowledge base that works on top Markdown files
 "brew-cask:sublime-text"       = "latest" # Text editor for code, markup and prose
 "brew-cask:visual-studio-code" = "latest" # Open-source code editor
-"brew-cask:warp"               = "latest" # Rust-based terminal
 
-# MISE tools
-[tools.fnox]
-version = "latest"
-
-[tools.usage]
-version = "latest"
-
-# Developer Tools
-[tools.jq]
-version = "latest"
-
-[tools.yq]
-version = "latest"
+# Mac App Store (keyed by ADAM id)
+"mas:899247664" = "latest" # TestFlight
 
 # Linter & Formatters
 [tools.dprint]
@@ -33,27 +19,9 @@ version = "latest"
 version = "latest"
 
 [dotfiles]
-# Git & SSH. Identity files are templates rendered from the [vars] in
-# identity.toml; listed per file, since a template cannot sit inside a linked
-# directory.
-"~/.config/git/allowed_signers" = { mode = "template" }
-"~/.config/git/config"          = {}
-"~/.config/git/github.config"   = { mode = "template" }
-"~/.config/git/gitlab.config"   = { mode = "template" }
-"~/.config/git/identity"        = { mode = "template" }
-"~/.config/git/ignore"          = {}
-"~/.ssh/config"                 = {}
-"~/.ssh/config.identity"        = { mode = "template" }
-
 # dprint & Taplo
 "~/.config/dprint.json" = {}
 "~/.config/taplo.toml"  = {}
-
-# fnox
-"~/.config/fnox/config.toml" = {}
-
-# Ghostty
-"~/.config/ghostty/config" = {}
 
 # Gem
 "~/.gemrc" = {}
@@ -62,39 +30,13 @@ version = "latest"
 # Development tools
 CHROME_EXECUTABLE           = "${HOME}/Applications/Brave Browser.app/Contents/MacOS/Brave Browser"
 DOTNET_CLI_TELEMETRY_OPTOUT = "true"
-HELM_EXPERIMENTAL_OCI       = "1"
 PRE_COMMIT_HOME             = "${HOME}/.cache/pre-commit"
 RUNTIME_ENV                 = "development"
-
-# Docker
-BUILDKIT_PROGRESS           = "auto"
-COMPOSE_DOCKER_CLI_BUILD    = "1"
-DOCKER_BUILDKIT             = "1"
-DOCKER_DEFAULT_PLATFORM     = "linux/amd64"
-DOCKER_HIDE_LEGACY_COMMANDS = "1"
 
 [shell_alias]
 # Development related shortcuts
 code = "mise run --silent func:code"
-
-# Git Related Aliases
-gc    = 'git commit -a -m'
-gp    = 'git push --verbose'
-gpull = 'git pull --all --verbose --progress'
-gs    = 'git status -sb'
-
-# Docker Related Aliases
-dclean = "docker system prune --all --volumes --force"
-dlist  = "docker image list"
-dprune = "docker system prune --volumes --force"
-dpull  = "docker image pull --platform='linux/amd64'"
-drun   = "docker run --platform='linux/amd64' --rm --interactive --tty"
-
-# Kubernetes (K8s) Related Aliases
-k        = "kubectl"
-kc-local = "kubectl config use-context orbstack"
-kgc      = "kubectl config current-context"
-kubectx  = "kubectl config get-contexts"
+edit = "subl"
 
 # Android
 adb      = "$ANDROID_HOME/platform-tools/adb"

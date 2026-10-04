@@ -1,0 +1,15 @@
+[bootstrap.packages]
+# Casks
+"brew-cask:brave-browser" = "latest" # Brave Browser
+"brew-cask:notion"        = "latest" # App to write, plan, collaborate, and get organised
+"brew-cask:obsidian"      = "latest" # Knowledge base that works on top Markdown files
+"brew-cask:whatsapp"      = "latest" # Native desktop client for WhatsApp
+
+# Mac App Store (keyed by ADAM id)
+"mas:361285480" = "latest" # Keynote
+"mas:361304891" = "latest" # Numbers
+"mas:361309726" = "latest" # Pages
+"mas:937984704" = "latest" # Amphetamine
+
+[shell_alias]
+cleanupTelegram = "mise run cleanupTelegram"
