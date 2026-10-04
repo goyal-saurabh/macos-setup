@@ -9,6 +9,11 @@ version = "latest"
 [tools.rtk]
 version = "latest"
 
+# Tracking usage and performance of AI tools
+[tools."npm:codeburn"]
+depends = [ "node", "pnpm" ]
+version = "latest"
+
 [tools."pipx:graphifyy"]
 uvx     = true
 version = "latest"
@@ -40,7 +45,7 @@ version = "latest"
 
 [shell_alias]
 # AI Tools shortcuts
-aistats = "pnpm dlx codeburn"
+aistats = "mise x -- codeburn report --period 30days --format tui"
 cc      = "mise run --silent func:claude"
 ccf     = "mise run --silent func:claude --model 'fable[1m]'"
 cch     = "mise run --silent func:claude --model 'haiku[1m]'"
