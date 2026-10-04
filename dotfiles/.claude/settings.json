@@ -57,7 +57,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node ${HOME}/.claude/hooks/context-caps.js"
+            "command": "claude-status --caps-hook"
           }
         ]
       },
@@ -188,13 +188,13 @@
   "disableArtifact": true,
   "statusLine": {
     "type": "command",
-    "command": "${HOME}/.claude/scripts/statusline",
+    "command": "claude-status --statusline",
     "padding": 0,
     "refreshInterval": 4
   },
   "subagentStatusLine": {
     "type": "command",
-    "command": "${HOME}/.claude/scripts/statusline"
+    "command": "claude-status --subagent"
   },
   "enabledPlugins": {
     "warp@claude-code-warp": true,
