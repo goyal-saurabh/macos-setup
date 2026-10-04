@@ -1,19 +1,11 @@
 # Shell
 
-## Change the default shell
+The login shell is set by `mise bootstrap` (`[bootstrap.user]` in
+`dotfiles/.config/mise/conf.d/shell.toml`): it adds `/opt/homebrew/bin/fish` to
+`/etc/shells` and runs `chsh`. Homebrew's `bash` and `zsh` are added to
+`/etc/shells` by the `line` entries in its `[dotfiles]` table.
 
-This should be done only after installing all tools using `Homebrew`.
-
-## Configure all shells
-
-```zsh
-zsh -c 'grep -q "^/opt/homebrew/bin/fish$" /etc/shells || echo /opt/homebrew/bin/fish | sudo tee -a /etc/shells'
-zsh -c 'grep -q "^/opt/homebrew/bin/bash$" /etc/shells || echo /opt/homebrew/bin/bash | sudo tee -a /etc/shells'
-zsh -c 'grep -q "^/opt/homebrew/bin/zsh$" /etc/shells || echo /opt/homebrew/bin/zsh | sudo tee -a /etc/shells'
-```
-
-## Configure `fish` as default shell
-
-```zsh
-chsh -s /opt/homebrew/bin/fish
+```shell
+mise bootstrap user status
+mise bootstrap user apply
 ```

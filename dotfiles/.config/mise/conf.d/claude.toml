@@ -1,0 +1,48 @@
+# Required by mise to parse the brew-cask correctly
+[tools.ruby]
+version = "latest"
+
+# AI tools
+[tools.claude-code]
+version = "latest"
+
+[tools.rtk]
+version = "latest"
+
+[tools."pipx:graphifyy"]
+uvx     = true
+version = "latest"
+
+[bootstrap.brew.taps]
+"virajp/tap" = "https://github.com/virajp/homebrew-tap.git"
+
+[bootstrap.packages]
+"brew-cask:claude"              = "latest" # Claude Desktop app
+"brew:herdr"                    = "latest" # tmux for AI coding agents
+"brew:virajp/tap/claude-status" = "latest" # Claude Code status line
+
+[dotfiles]
+# Claude
+"~/.claude/CLAUDE.md"     = {}
+"~/.claude/hooks"         = {}
+"~/.claude/output-styles" = {}
+"~/.claude/settings.json" = {}
+
+# Agent skills, Herdr, OpenCode and Gemini
+"~/.config/agents"                  = {}
+"~/.config/herdr/config.toml"       = {}
+"~/.config/opencode/opencode.jsonc" = {}
+"~/.config/opencode/tui.jsonc"      = {}
+"~/.gemini/GEMINI.md"               = {}
+"~/.gemini/projects.json"           = {}
+"~/.gemini/settings.json"           = {}
+"~/.gemini/trustedFolders.json"     = {}
+
+[shell_alias]
+# AI Tools shortcuts
+aistats = "pnpm dlx codeburn"
+cc      = "mise run --silent func:claude"
+ccf     = "mise run --silent func:claude --model 'fable[1m]'"
+cch     = "mise run --silent func:claude --model 'haiku[1m]'"
+cco     = "mise run --silent func:claude --model 'opus[1m]'"
+ccs     = "mise run --silent func:claude --model 'sonnet[1m]'"

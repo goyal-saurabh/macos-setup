@@ -1,0 +1,2 @@
+{{ vars.github_email }} namespaces="git" {{ vars.signing_key }}
+{{ vars.gitlab_email }} namespaces="git" {{ vars.signing_key }}

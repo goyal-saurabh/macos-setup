@@ -1,0 +1,15 @@
+[tools]
+python = "latest"
+uv     = "latest"
+
+[settings]
+# Python settings
+pipx.uvx            = true
+python.compile      = false
+python.uv_venv_auto = "create|source"
+
+[env]
+# Python (uv)
+UV_NO_CACHE          = "true"
+UV_NO_MANAGED_PYTHON = "true"
+UV_PYTHON_DOWNLOADS  = "never"

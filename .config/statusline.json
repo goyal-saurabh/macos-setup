@@ -1,4 +1,3 @@
 {
-  "$schema": "https://raw.githubusercontent.com/virajp/ai-plugins/main/schemas/statusline.schema.json",
   "projectName": "macos:setup"
 }

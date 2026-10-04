@@ -1,0 +1,28 @@
+# Packages to be installed via Homebrew
+[bootstrap.packages]
+# Formulaes
+"brew:gping"       = "latest" # Ping with a graph
+"brew:httping"     = "latest" # Ping a web server over HTTP
+"brew:imagemagick" = "latest" # Image manipulation tool
+"brew:ipcalc"      = "latest" # IP address calculator
+"brew:lazygit"     = "latest" # Simple terminal UI for git
+"brew:lcov"        = "latest" # Code coverage tool for C/C++
+"brew:prettyping"  = "latest" # Enhanced ping with visual output
+"brew:pstree"      = "latest" # Display process tree
+"brew:tree"        = "latest" # Display directory tree
+"brew:watch"       = "latest" # Execute a command periodically and show output
+"brew:wget"        = "latest" # Network downloader
+
+# Mac App Store (keyed by ADAM id)
+"mas:361285480" = "latest" # Keynote
+"mas:361304891" = "latest" # Numbers
+"mas:361309726" = "latest" # Pages
+"mas:425424353" = "latest" # The Unarchiver
+"mas:899247664" = "latest" # TestFlight
+"mas:937984704" = "latest" # Amphetamine
+
+[dotfiles]
+# Prompt, task daemon and Nushell (config only; the tools are installed elsewhere)
+"~/.config/oh-my-posh"                  = {}
+"~/.config/pitchfork"                   = {}
+"~/Library/Application Support/nushell" = {}

@@ -4,11 +4,10 @@ all_compile         = false
 env_shell_expand    = true
 gpg_verify          = true
 raw                 = true
-task_output         = "interleave"
+task.output         = "interleave"
 
 # Package manager settings
 npm.package_manager = "pnpm"
-pipx.uvx            = true
 python.compile      = false
 python.uv_venv_auto = "create|source"
 
@@ -19,9 +18,6 @@ pnpm       = { version = "latest" }
 pre-commit = { version = "latest" }
 taplo      = { version = "latest" }
 
-[env]
-HOMEBREW_BUNDLE_FILE = "./Brewfile"
-
 [tasks.init]
 description = "Initialize mise tasks"
 hide        = true
@@ -30,5 +26,5 @@ run         = "find $MISE_ORIGINAL_CWD/.config/mise/tasks/ -name '*' -type f -ex
 [shell_alias]
 cc    = "claude --allow-dangerously-skip-permissions --dangerously-skip-permissions --model sonnet --effort high"
 cco   = "claude --allow-dangerously-skip-permissions --dangerously-skip-permissions --model opus --effort high"
-lint  = "mise run lint"
+lint  = "mise run code:lint"
 setup = "mise run setup:all"

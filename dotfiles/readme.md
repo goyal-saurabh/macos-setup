@@ -5,31 +5,30 @@ liking.
 
 ## Installation
 
-I use [GNU Stow](https://www.gnu.org/software/stow/) to manage my dotfiles. To
-install these dotfiles, clone this repository and use stow to symlink the files
-to your home directory.
-
-> NOTE: Run the `stow` cli from `dotfiles` directory
-
-```shell
-stow --dir=. --target=$HOME --verbose */
-```
-
-## Cleanup
-
-To remove the symlinks, use the following command:
+I use [mise](https://mise.jdx.dev/) to manage my dotfiles. This directory
+mirrors `$HOME`: every file sits at the path it is linked to, and
+`dotfiles.root` in [`.config/mise/config.toml`](./.config/mise/config.toml)
+points mise here. Each topic's links are declared in the `[dotfiles]` table of
+its own `.config/mise/conf.d/<topic>.toml` (e.g. `shell.toml` links
+`~/.config/fish` and `~/.zshrc`), next to that topic's packages and settings.
+Files holding personal values are templates rendered from the `[vars]` in
+`.config/mise/conf.d/identity.toml`. `mise bootstrap` applies them from any
+directory, together with the rest of the machine declaration (see
+[CONFIG_DOCUMENTATION.md](./CONFIG_DOCUMENTATION.md)).
 
 ```shell
-stow --delete --dir=. --target=$HOME --verbose */
+mise run dotfiles:install   # create the symlinks
+mise run dotfiles:status    # show which symlinks are missing
+mise run dotfiles:delete    # remove the symlinks
 ```
 
-## Simulate
+## Adding a dotfile
 
-```shell
-stow --dir=. --target=$HOME --verbose --simulate */
-```
+Add the file under `dotfiles/` at its `$HOME` path, add a `[dotfiles]` entry for
+it to the matching `.config/mise/conf.d/<topic>.toml`, then run
+`mise run dotfiles:install`.
 
 ## Reference
 
-- [Documentation](https://www.gnu.org/software/stow/manual/stow.html)
-- [Using GNU Stow to manage your dotfiles](https://alexpearce.me/2016/02/managing-dotfiles-with-stow/)
+- [mise dotfiles](https://mise.jdx.dev/dotfiles.html)
+- [mise bootstrap](https://mise.jdx.dev/bootstrap.html)

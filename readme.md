@@ -1,31 +1,36 @@
 # macOS Setup
 
-My personal macOS provisioning repo: a Homebrew `brewfile`, dotfiles managed
-with [GNU Stow](https://www.gnu.org/software/stow/), and a `mise` task runner
-that ties everything together.
+My personal macOS provisioning repo, driven by
+[`mise bootstrap`](https://mise.jdx.dev/bootstrap.html): packages, dotfiles,
+macOS defaults, login shell and Touch ID are all declared in the global mise
+config ([`dotfiles/.config/mise/conf.d/`](./dotfiles/.config/mise/conf.d/)),
+plus a `mise` task runner for the rest.
 
 ## Automated setup
 
-The [`./setup`](./setup) script is the main entrypoint. It installs Homebrew if
-missing, installs everything in
-[`dotfiles/homebrew/brewfile`](./dotfiles/homebrew/brewfile), symlinks the
-dotfiles via `mise run stow:install`, and applies the macOS defaults in
-[`utils/macos-setup`](./utils/macos-setup):
+The [`./setup`](./setup) script is the main entrypoint. It installs Homebrew and
+`mise` if missing, links `~/.config/mise`, then runs `mise bootstrap` — Homebrew
+formulae, casks and App Store apps (`[bootstrap.packages]`), macOS `defaults`
+(`[bootstrap.macos.defaults]`), the dotfile links (`[dotfiles]`), the fish login
+shell and Touch ID for sudo:
 
 ```shell
 ./setup
+# or, once set up, converge directly:
+mise bootstrap            # from any directory; --dry-run to preview
+mise bootstrap status     # what differs
+mise run dotfiles:install # (re)link only the dotfiles
 ```
 
 > On a truly fresh machine, run the one-liner in
-> [docs/setup.md](./docs/setup.md) — it installs Homebrew and clones this repo
-> before running `./setup`.
+> [docs/setup.md](./docs/setup.md) (`curl … | sh`) — it installs Homebrew and
+> clones this repo before doing the same.
 
 ## Manual steps
 
 - [Create account](./docs/account.md)
 - [Setup Hostname](./docs/host.md)
 - [Setup](./docs/setup.md)
-- [Configure Shell](./docs/shell.md)
 - [Setup TouchID for sudo](./docs/touchid-sudo.md)
 - [Install tools](./docs/tools.md)
 - [AI tools](./docs/ai-tools/readme.md)
@@ -35,12 +40,13 @@ dotfiles via `mise run stow:install`, and applies the macOS defaults in
 Tasks are run with `mise` (list them with `mise tasks`):
 
 ```shell
-mise run brew:gen        # regenerate the brewfile from installed packages
-mise run brew:check      # check the system against the brewfile
-mise run stow:install    # (re)symlink dotfiles
-mise run stow:simulate   # dry-run the symlinking
+mise bootstrap packages status  # system vs [bootstrap.packages]
+mise bootstrap packages apply   # install what is missing
+mise run dotfiles:install       # (re)symlink dotfiles
+mise run dotfiles:status        # show which dotfile symlinks are missing
 mise run code:format     # format files (dprint/taplo)
 mise run code:lint       # lint files
+mise run system:symlinks # find broken symlinks in $HOME (--deep, --delete)
 ```
 
 See [dotfiles/CONFIG_DOCUMENTATION.md](./dotfiles/CONFIG_DOCUMENTATION.md) for
@@ -49,17 +55,10 @@ how the dotfiles are organized.
 ## Final steps: Update tools & macOS
 
 ```shell
-# Update everything
+# Update everything (the macOS settings / power profile part runs weekly)
 updateall
+updateall --force   # run the weekly part now
 
 # Update macOS (works on zsh & fish only)
 osx-upgrade
 ```
-
-## Install these tools manually
-
-- [Brave Browser](https://brave.com/)
-- [Cloudflare Wrap](https://1.1.1.1/)
-- [SnapDownloader](https://snapdownloader.com/downloads)
-- [Spatial Media Metadata Injector](https://github.com/google/spatial-media/releases)
-- [Insta360 Studio 2023](https://www.insta360.com/download/insta360-oners)

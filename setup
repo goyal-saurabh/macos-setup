@@ -1,101 +1,159 @@
-#!/usr/bin/env zsh
+#!/bin/bash
 
 ##############################################################################
-# macOS Setup - Install all the tools using homebrew
+# macOS Setup - Install Homebrew + mise, then `mise bootstrap` the machine
 ##############################################################################
 #
 # Description:
-#   Installs all the tools on fresh laptop or even already setup laptop
-#   This script requires homebrew so it will first detect whether it exists
-#   and if it doesn't, it will install it and then install all tools
+#   Provisions a fresh laptop (or re-converges an existing one). Homebrew and
+#   mise are the only things installed by hand here; everything else -
+#   packages, dotfiles, macOS defaults, login shell, Touch ID - is declared in
+#   the global mise config (dotfiles/.config/mise/, linked to ~/.config/mise)
+#   and applied by `mise bootstrap`.
 #
 # Usage:
 #   ./setup
 #   # or bootstrap a fresh machine directly from the public repo:
-#   /bin/zsh -c "$(curl -fsSL https://raw.githubusercontent.com/goyal-saurabh/macos-setup/main/setup)"
+#   curl -fsSL https://raw.githubusercontent.com/goyal-saurabh/macos-setup/main/setup | sh
+#   # a fork: GITHUB_USER=<you> curl ... | sh
 #
-# Steps (Tasks):
-# - First check whether `brew` is installed, if not then install it
-# - Clone the repo to ~/Projects/github.com/goyal-saurabh/macos-setup if it's missing
-# - Check whether everything is fine with brew using `brew doctor` command
-# - Check whether anything needs to be installed using `brew bundle check` command
-# - Install all tools from `Brewfile` using `brew bundle install --upgrade` command, if needed
-# - Use `stow` to create symlinks for dotfiles (if applicable)
+# Steps:
+# - Install Homebrew if it is missing (this also installs the Xcode Command
+#   Line Tools, which bring `git`)
+# - Clone the repo to ~/Projects/github.com/${GITHUB_USER}/macos-setup if it
+#   is not there yet
+# - `brew analytics off`, `brew doctor`
+# - Install `mise`
+# - Link ~/.config/mise to dotfiles/.config/mise so the global config exists
+# - Run `mise bootstrap` (skipping the compose phase until Docker is up); its
+#   dotfiles phase links the rest of the dotfiles
 #
-# Note:
-#   Uses absolute paths to the repo, so it can be run from anywhere — including
-#   piped straight from curl on a fresh machine.
+# Notes:
+#   Written as a function that is called (and exited) on the last line, so the
+#   whole file is parsed before anything runs - required for `curl | sh`,
+#   where the shell reads the script from stdin and any command that reads
+#   stdin (the Homebrew installer, sudo fallbacks, the App Store check) would
+#   otherwise eat it.
+#   Uses absolute paths to the repo, so it can be run from anywhere.
+#   /bin/bash is used, not zsh: it is what macOS runs `sh` as, and it is
+#   always present on a fresh machine.
 #
-# Author: Viraj Patel
+# Author: Saurabh Goyal
 ##############################################################################
 
-readonly SUCCESS_EMOJI="✅"
-readonly ERROR_EMOJI="🚫"
-readonly SETTING_EMOJI="⚙️"
-readonly INSTALL_EMOJI="🚀"
-readonly PACKAGE_EMOJI="📦"
-readonly CHECK_EMOJI="🩺"
+set -euo pipefail
 
-readonly REPO_URL="https://github.com/goyal-saurabh/macos-setup.git"
-readonly REPO_DIR="${HOME}/Projects/github.com/goyal-saurabh/macos-setup"
+main() {
+  local SUCCESS_EMOJI="✅"
+  local ERROR_EMOJI="🚫"
+  local SETTING_EMOJI="⚙️"
+  local INSTALL_EMOJI="🚀"
+  local PACKAGE_EMOJI="📦"
+  local CHECK_EMOJI="🩺"
+  local WARNING_EMOJI="⚠️"
 
-if ! command -v brew &> /dev/null; then
-  echo "${INSTALL_EMOJI} Homebrew not found. Installing..."
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-else
-  echo "${SUCCESS_EMOJI} Homebrew is already installed."
-fi
+  local GITHUB_USER="${GITHUB_USER:-goyal-saurabh}"
+  local REPO_URL="https://github.com/${GITHUB_USER}/macos-setup.git"
+  local REPO_DIR="${HOME}/Projects/github.com/${GITHUB_USER}/macos-setup"
+  local MISE_CONFIG_DIR="${HOME}/.config/mise"
 
-# Clone the repo if it isn't present yet (e.g. bootstrapping a fresh machine by
-# piping this script straight from the public repo). Git ships with the Xcode
-# Command Line Tools that the Homebrew installer above pulls in.
-if [[ ! -d "${REPO_DIR}" ]]; then
-  echo "${INSTALL_EMOJI} Cloning macos-setup into ${REPO_DIR}..."
-  git clone "${REPO_URL}" "${REPO_DIR}"
-else
-  echo "${SUCCESS_EMOJI} macos-setup repo already present at ${REPO_DIR}."
-fi
+  # When piped (`curl ... | sh`) stdin is the script itself. Everything below is
+  # already parsed, so hand stdin back to the terminal for the prompts
+  # (Homebrew's "Press RETURN", sudo, the App Store sign-in check).
+  if [[ ! -t 0 && -r /dev/tty ]]; then
+    exec < /dev/tty
+  fi
 
-# Turn off homebrew analytics
-echo "${SETTING_EMOJI} Turning off Homebrew analytics..."
-brew analytics off
+  if ! command -v brew &> /dev/null; then
+    echo "${INSTALL_EMOJI} Homebrew not found. Installing..."
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    # The installer does not touch the current shell's PATH, so put brew on it
+    # before the commands below reach for it.
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+  else
+    echo "${SUCCESS_EMOJI} Homebrew is already installed."
+  fi
 
-# Check Homebrew health
-echo "${CHECK_EMOJI} Checking Homebrew health..."
-brew doctor
+  # Clone the repo if it isn't present yet. Git ships with the Xcode Command
+  # Line Tools that the Homebrew installer above pulls in.
+  if [[ ! -d "${REPO_DIR}" ]]; then
+    echo "${INSTALL_EMOJI} Cloning macos-setup into ${REPO_DIR}..."
+    mkdir -p "$(dirname "${REPO_DIR}")"
+    git clone "${REPO_URL}" "${REPO_DIR}"
+  else
+    echo "${SUCCESS_EMOJI} macos-setup repo already present at ${REPO_DIR}."
+  fi
 
-# Export HOMEBREW config
-export HOMEBREW_CASK_OPTS="--appdir=${HOME}/Applications --fontdir=${HOME}/Library/Fonts"
+  # Turn off homebrew analytics
+  echo "${SETTING_EMOJI} Turning off Homebrew analytics..."
+  brew analytics off
 
-echo ""
-echo "${PACKAGE_EMOJI} Installing/updating packages from brewfile..."
-brew bundle install \
-  --upgrade \
-  --force \
-  --file=${REPO_DIR}/dotfiles/homebrew/brewfile
+  # Check Homebrew health
+  echo "${CHECK_EMOJI} Checking Homebrew health..."
+  brew doctor
 
-# Check if mise & stow are installed, if not then raise error and exit
-if ! command -v mise &> /dev/null; then
-  echo "${ERROR_EMOJI} ERROR: mise not found. Please install it first and then re-run the setup."
-  exit 1
-fi
-if ! command -v stow &> /dev/null; then
-  echo "${ERROR_EMOJI} ERROR: stow not found. Please install it first and then re-run the setup."
-  exit 1
-fi
+  # mise drives the rest of the setup. It is installed with its own installer
+  # (to ~/.local/bin), never Homebrew, so `mise self-update` can manage it.
+  if [[ ! -x "${HOME}/.local/bin/mise" ]]; then
+    echo "${INSTALL_EMOJI} mise not found in ~/.local/bin. Installing..."
+    curl https://mise.run | sh
+  fi
+  export PATH="${HOME}/.local/bin:${PATH}"
 
-echo ""
-echo "${SETTING_EMOJI} Setting up dotfiles with stow..."
-if command -v stow &> /dev/null; then
-  mise --cd "${REPO_DIR}" run stow:install
-  echo "${SUCCESS_EMOJI} Dotfiles symlinked successfully."
-else
-  echo "${ERROR_EMOJI} ERROR: stow not found. Skipping dotfiles setup."
-  exit 1
-fi
+  # Casks land in ~/Applications (1password is the exception, see the Brewfile).
+  # Only needed on a fresh machine: once the dotfiles are linked, the global mise
+  # [env] block sets it.
+  export HOMEBREW_CASK_OPTS="--appdir=${HOME}/Applications --fontdir=${HOME}/Library/Fonts"
 
-echo ""
-sudo ${REPO_DIR}/utils/macos-setup
+  # The whole machine declaration is the global mise config, which the dotfiles
+  # phase would link only mid-run. Create that one link up front so the first
+  # `mise bootstrap` already reads it (the [dotfiles] entry for ~/.config/mise
+  # then finds it applied).
+  if [[ ! -L "${MISE_CONFIG_DIR}" ]]; then
+    echo "${SETTING_EMOJI} Linking ${MISE_CONFIG_DIR} -> ${REPO_DIR}/dotfiles/.config/mise..."
+    mkdir -p "${HOME}/.config"
+    if [[ -e "${MISE_CONFIG_DIR}" ]]; then
+      mv "${MISE_CONFIG_DIR}" "${MISE_CONFIG_DIR}.bak-$(date +%s)"
+    fi
+    ln -s "${REPO_DIR}/dotfiles/.config/mise" "${MISE_CONFIG_DIR}"
+  fi
 
-echo ""
-echo "${SUCCESS_EMOJI} Setup complete!"
+  # The qdrant compose project needs a running Docker engine. On a fresh machine
+  # OrbStack has only just been installed and never launched, and a failing
+  # phase aborts every phase after it (dotfiles, defaults, login shell, ...).
+  local -a bootstrap_flags=(--yes)
+  if ! docker info &> /dev/null; then
+    echo "${ERROR_EMOJI} Docker is not running; skipping the compose phase."
+    echo "   Launch OrbStack once, then run: mise bootstrap --only compose"
+    bootstrap_flags+=(--skip compose)
+  fi
+
+  echo ""
+  echo "${PACKAGE_EMOJI} Running mise bootstrap (formulae, casks, macOS defaults, ...)..."
+  # From $HOME so only the global config is read, not whatever project config
+  # the caller's directory happens to carry. Not run under sudo: mise elevates
+  # only where needed (/etc/pam.d, /etc/shells, chsh, the pmset/nvram task),
+  # and running the whole thing as root would write every `defaults` key into
+  # root's preference domain instead of yours.
+  cd "${HOME}"
+  mise bootstrap "${bootstrap_flags[@]}"
+
+  echo ""
+  echo "${SUCCESS_EMOJI} Setup complete!"
+  echo "   Next: open a new terminal (fish is the login shell now), then:"
+  echo "   - launch OrbStack once, then: mise bootstrap --only compose"
+  echo ""
+  printf '%*s\n' "${COLUMNS:-80}" '' | tr ' ' '='
+  echo ""
+  echo "${WARNING_EMOJI} WARNING: do not use this terminal any further."
+  echo "   It still has the old login shell and PATH, so it is parked here."
+  echo "   Close this window and open a new terminal."
+  # Deliberately never returns: the parent shell of a `curl | sh` run has none
+  # of the new environment, and anything typed into it would only misbehave.
+  while :; do sleep 3600; done
+}
+
+# `exit` on the same line: main parks on success, but if it fails, a piped bash
+# would otherwise read its next script line from the terminal — executing
+# whatever is typed, with no prompt.
+main "$@"; exit "$?"

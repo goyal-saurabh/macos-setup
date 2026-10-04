@@ -1,0 +1,22 @@
+# Password manager that keeps all passwords secure behind one password
+cask "1password", args: { appdir: "/Applications" }
+# VS Code extensions
+vscode "astro-build.astro-vscode"
+vscode "bmalehorn.vscode-fish"
+vscode "bradlc.vscode-tailwindcss"
+vscode "christian-kohler.npm-intellisense"
+vscode "dart-code.dart-code"
+vscode "dart-code.flutter"
+vscode "dbaeumer.vscode-eslint"
+vscode "doppler.doppler-vscode"
+vscode "dprint.dprint"
+vscode "effectful-tech.effect-vscode"
+vscode "foxundermoon.shell-format"
+vscode "gruntfuggly.todo-tree"
+vscode "hverlin.mise-vscode"
+vscode "meganrogge.template-string-converter"
+vscode "oderwat.indent-rainbow"
+vscode "pkief.material-icon-theme"
+vscode "redhat.vscode-yaml"
+vscode "tamasfe.even-better-toml"
+vscode "usernamehw.errorlens"
