@@ -39,17 +39,17 @@ the interactive prompt.
 
 Aliases that shadow standard commands (use `command <name>` to bypass):
 
-| Alias                  | Actually runs   | Gotcha                                  |
-| ---------------------- | --------------- | --------------------------------------- |
-| `ls`, `ld`, `lf`, `lg` | `eza`           | icons and columns differ from coreutils |
-| `td`, `tg`, `tl`       | `eza --tree`    | recursive by default                    |
+| Alias                  | Actually runs   | Gotcha                                               |
+| ---------------------- | --------------- | ---------------------------------------------------- |
+| `ls`, `ld`, `lf`, `lg` | `eza`           | icons and columns differ from coreutils              |
+| `td`, `tg`, `tl`       | `eza --tree`    | recursive by default                                 |
 | `cat`                  | `bat`           | decorations and color are always on, even when piped |
-| `cd`                   | `z` (zoxide)    | jumps by frecency, not by literal path  |
-| `diff`                 | `diff-so-fancy` | no unified diff, no diff exit codes     |
-| `ping`                 | `prettyping`    |                                         |
-| `dig`                  | `doggo`         |                                         |
-| `edit`                 | `subl`          | opens a GUI editor                      |
-| `plist`                | `plutil -p`     |                                         |
+| `cd`                   | `z` (zoxide)    | jumps by frecency, not by literal path               |
+| `diff`                 | `diff-so-fancy` | no unified diff, no diff exit codes                  |
+| `ping`                 | `prettyping`    |                                                      |
+| `dig`                  | `doggo`         |                                                      |
+| `edit`                 | `subl`          | opens a GUI editor                                   |
+| `plist`                | `plutil -p`     |                                                      |
 
 The rest shadow nothing and are safe: git (`gc`, `gp`, `gpull`, `gs`), docker
 (`dclean`, `dlist`, `dprune`, `dpull`, `drun` — `dpull`/`drun` force

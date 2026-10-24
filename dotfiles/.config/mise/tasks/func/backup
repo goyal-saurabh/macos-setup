@@ -12,8 +12,8 @@ local STAMP=$(date "+%Y%m%d-%H%M%S")
 # Get absolute path and extract components (zsh-native, no external binary)
 local FOLDER="$MISE_ORIGINAL_CWD/$usage_folder"
 local FULLPATH=${FOLDER:a}
-local BASENAME=${FULLPATH##*/}   # Extract filename/dirname
-local PARENT=${FULLPATH%/*}      # Extract parent directory
+local BASENAME=${FULLPATH##*/} # Extract filename/dirname
+local PARENT=${FULLPATH%/*}    # Extract parent directory
 
 # Construct timestamped backup filename
 local FILENAME="$PARENT/$BASENAME-$STAMP.zip"

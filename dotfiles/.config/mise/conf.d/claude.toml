@@ -11,39 +11,32 @@ depends = [ "node", "pnpm" ]
 version = "latest"
 
 [tools."pipx:graphifyy"]
-uvx     = true
+uvx = true
 version = "latest"
 
 [bootstrap.brew.taps]
 "virajp/tap" = "https://github.com/virajp/homebrew-tap.git"
 
 [bootstrap.packages]
-"brew-cask:claude"              = "latest" # Claude Desktop app
-"brew:herdr"                    = "latest" # tmux for AI coding agents
+"brew-cask:claude" = "latest" # Claude Desktop app
+"brew:herdr" = "latest" # tmux for AI coding agents
 "brew:virajp/tap/claude-status" = "latest" # Claude Code status line
 
 [dotfiles]
 # Claude
-"~/.claude/CLAUDE.md"     = {}
-"~/.claude/hooks"         = {}
+"~/.claude/CLAUDE.md" = {}
+"~/.claude/hooks" = {}
 "~/.claude/output-styles" = {}
 "~/.claude/settings.json" = {}
 
-# Agent skills, Herdr, OpenCode and Gemini
-"~/.config/agents"                  = {}
-"~/.config/herdr/config.toml"       = {}
-"~/.config/opencode/opencode.jsonc" = {}
-"~/.config/opencode/tui.jsonc"      = {}
-"~/.gemini/GEMINI.md"               = {}
-"~/.gemini/projects.json"           = {}
-"~/.gemini/settings.json"           = {}
-"~/.gemini/trustedFolders.json"     = {}
+# Herdr
+"~/.config/herdr/config.toml" = {}
 
 [shell_alias]
 # AI Tools shortcuts
 aistats = "mise x -- codeburn report --period 30days --format tui"
-cc      = "mise run --silent func:claude"
-ccf     = "mise run --silent func:claude --model 'fable[1m]'"
-cch     = "mise run --silent func:claude --model 'haiku[1m]'"
-cco     = "mise run --silent func:claude --model 'opus[1m]'"
-ccs     = "mise run --silent func:claude --model 'sonnet[1m]'"
+cc = "mise run --silent func:claude"
+ccf = "mise run --silent func:claude --model 'fable[1m]'"
+cch = "mise run --silent func:claude --model 'haiku[1m]'"
+cco = "mise run --silent func:claude --model 'opus[1m]'"
+ccs = "mise run --silent func:claude --model 'sonnet[1m]'"

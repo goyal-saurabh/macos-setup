@@ -8,22 +8,22 @@ it is linked to, and each topic's `[dotfiles]` table in
 
 ## Directory Structure
 
-| Path                                        | What it configures                                                                    |
-| ------------------------------------------- | ------------------------------------------------------------------------------------- |
-| `.config/fish/`                             | Fish shell — the default interactive shell (`conf.d/*.fish`)                          |
-| `.zshenv`, `.zshrc`, `.config/zsh/`         | Zsh configuration (fallback shell); `.zshrc` sources `.config/zsh/*.zsh`              |
-| `.config/starship.toml`                     | Starship prompt (the active prompt, initialised from fish)                            |
-| `.config/ghostty/`                          | Ghostty terminal configuration                                                        |
-| `.config/brewfile`                          | VS Code extensions and the `1password` cask (not linked, see below)                   |
-| `.config/git/`                              | Git config, ignore; `identity`, GitHub/GitLab includes, `allowed_signers` (templates) |
-| `.ssh/`                                     | SSH client config and `config.identity` (template, see below)                         |
-| `.config/fnox/`                             | Secret management via the macOS Keychain (see below)                                  |
-| `.config/mise/`                             | Global `mise` config, the machine declaration (`conf.d/`) and tasks                   |
-| `.config/dprint.json`, `.config/taplo.toml` | `dprint` / `taplo` formatter configuration                                            |
-| `.gemrc`                                    | RubyGems configuration                                                                |
-| `.config/1Password/`                        | 1Password SSH agent configuration                                                     |
-| `.claude/`                                  | Claude Code (`CLAUDE.md`, `settings.json`, `output-styles/`)                          |
-| `.github/`                                  | GitHub Copilot commit-message guidelines                                              |
+| Path                                | What it configures                                                                    |
+| ----------------------------------- | ------------------------------------------------------------------------------------- |
+| `.config/fish/`                     | Fish shell — the default interactive shell (`conf.d/*.fish`)                          |
+| `.zshenv`, `.zshrc`, `.config/zsh/` | Zsh configuration (fallback shell); `.zshrc` sources `.config/zsh/*.zsh`              |
+| `.config/starship.toml`             | Starship prompt (the active prompt, initialised from fish)                            |
+| `.config/ghostty/`                  | Ghostty terminal configuration                                                        |
+| `.config/brewfile`                  | VS Code extensions and the `1password` cask (not linked, see below)                   |
+| `.config/git/`                      | Git config, ignore; `identity`, GitHub/GitLab includes, `allowed_signers` (templates) |
+| `.ssh/`                             | SSH client config and `config.identity` (template, see below)                         |
+| `.config/fnox/`                     | Secret management via the macOS Keychain (see below)                                  |
+| `.config/mise/`                     | Global `mise` config, the machine declaration (`conf.d/`) and tasks                   |
+| `.config/dprint/`                   | Global `dprint` formatter configuration (`dprint.jsonc`)                              |
+| `.gemrc`                            | RubyGems configuration                                                                |
+| `.config/1Password/`                | 1Password SSH agent configuration                                                     |
+| `.claude/`                          | Claude Code (`CLAUDE.md`, `settings.json`, `output-styles/`)                          |
+| `.github/`                          | GitHub Copilot commit-message guidelines                                              |
 
 Files written by `mise bootstrap` from inline content rather than linked:
 `~/.config/gh/config.yml` (`git.toml`), `~/Library/Preferences/pnpm/config.yaml`
@@ -207,7 +207,8 @@ topic:
   versioned dev tools → `[tools]`.
 - `shell.toml` — fish as login shell (`[bootstrap.user]`), Touch ID for sudo
   (`[bootstrap.files."/etc/pam.d/sudo_local"]`), Homebrew's bash, fish and zsh
-  in `/etc/shells` (`[dotfiles]` `line` entries), and the shell links.
+  in `/etc/shells` (`[dotfiles]` `line` entries), and the bash, zsh and fish
+  links.
 - `macos-defaults.toml` — `[bootstrap.macos.defaults]`, one table per domain.
   mise never restarts apps, so the `post-defaults` hook does the `killall`s (and
   `chflags nohidden ~/Library`, and the one `$HOME`-dependent Finder key, since
@@ -222,10 +223,13 @@ topic:
 - `network.toml` — DNS/ping/IP tools and their aliases.
 - `containers.toml` — Docker/k8s aliases, Docker, Helm and GCP env.
 - `security.toml` — 1Password, fnox and the SSH config.
-- `devtools.toml` — TestFlight, editors, dprint/taplo and dev env.
+- `devtools.toml` — TestFlight, editors, dev env.
 - `macos-apps.toml` — desktop and App Store apps.
 - `system.toml` — mas, ruby, usage, system utility apps, the `~/.config/mise`
-  link, Homebrew env and the maintenance aliases.
+  link and the maintenance aliases.
+- `homebrew.toml` — the `HOMEBREW_*` env and the `brew` alias that injects the
+  GitHub token through fnox.
+- `dprint.toml` — the dprint tool and the `~/.config/dprint` link.
 - `python.toml` — python, uv and the pipx-through-uv settings.
 
 The `pmset`/`nvram` power profile is the `upgrade:power` task; mise has no

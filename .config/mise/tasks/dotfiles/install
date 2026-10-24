@@ -7,11 +7,11 @@
 #USAGE flag "--force" help="Force the creation of symlinks even if they already exist"
 
 set -e
-source "${MISE_PROJECT_ROOT}/.config/mise/tasks/_scripts/_helpers"
+source "${MISE_PROJECT_ROOT}/.config/mise/tasks/_scripts/helpers"
 
 print_header "Setup dotfiles ..."
 if [[ "${usage_force:-false}" == "true" ]]; then
-    mise bootstrap dotfiles apply --yes --force
+  mise bootstrap dotfiles apply --yes --force
 else
-    mise bootstrap dotfiles apply --yes
+  mise bootstrap dotfiles apply --yes
 fi

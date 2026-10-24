@@ -1,28 +1,27 @@
 # Optional module: mempalace's qdrant store and its MCP hub launchd agent.
 [tools."pipx:mempalace"]
 depends = [ "python", "uv" ]
-uvx     = true
+uvx = true
 version = "latest"
 
-# Docker Compose for qdrant (mempalace dependency). project_dir must be a
-# literal absolute path (mise expands neither ~ nor $HOME nor templates here),
-# hence the username.
+# Docker Compose for qdrant (mempalace dependency). project_dir must be an
+# absolute path (mise expands neither ~ nor $HOME here), hence the template.
 [bootstrap.compose.mempalace]
-files        = [ "docker-compose.yaml" ]
-project_dir  = "/Users/saurabhgoyal/.config/mempalace"
+files = [ "docker-compose.yaml" ]
+project_dir = "{{ env.HOME }}/.config/mempalace"
 project_name = "mempalace"
-state        = "running"
-sudo         = false
+state = "running"
+sudo = false
 
 [bootstrap.macos.launchd.agents.mempalace-hub]
-args              = [ "x", "--", "mempalace", "serve" ]
-environment       = { MEMPALACE_MCP_IDLE_HOURS = "0", PATH = "/opt/homebrew/bin:/usr/bin:/bin" }
-keep_alive        = true
-kickstart         = true
-program           = "/Users/saurabhgoyal/.local/bin/mise"
-run_at_load       = true
-stderr_path       = "~/Library/Logs/mempalace-hub.log"
-stdout_path       = "~/Library/Logs/mempalace-hub.log"
+args = [ "x", "--", "mempalace", "serve" ]
+environment = { MEMPALACE_MCP_IDLE_HOURS = "0", PATH = "/opt/homebrew/bin:/usr/bin:/bin" }
+keep_alive = true
+kickstart = true
+program = "/Users/saurabhgoyal/.local/bin/mise"
+run_at_load = true
+stderr_path = "~/Library/Logs/mempalace-hub.log"
+stdout_path = "~/Library/Logs/mempalace-hub.log"
 throttle_interval = 10
 working_directory = "~"
 
@@ -62,14 +61,14 @@ networks:
 
 [env]
 # Mempalace Backend
-MEMPALACE_BACKEND               = "qdrant"
-MEMPALACE_EMBEDDING_DEVICE      = "auto"
-MEMPALACE_EMBEDDING_MODEL       = "minilm"
-MEMPALACE_MAX_BACKUPS           = 4
+MEMPALACE_BACKEND = "qdrant"
+MEMPALACE_EMBEDDING_DEVICE = "auto"
+MEMPALACE_EMBEDDING_MODEL = "minilm"
+MEMPALACE_MAX_BACKUPS = 4
 MEMPALACE_MCP_ALLOW_PEER_WRITER = 1
-MEMPALACE_MCP_IDLE_HOURS        = 0
-MEMPALACE_PALACE_PATH           = "${HOME}/.local/share/mempalace"
-MEMPALACE_QDRANT_URL            = "http://127.0.0.1:6333"
+MEMPALACE_MCP_IDLE_HOURS = 0
+MEMPALACE_PALACE_PATH = "${HOME}/.local/share/mempalace"
+MEMPALACE_QDRANT_URL = "http://127.0.0.1:6333"
 
 [shell_alias]
 mp = "mise x -- fnox exec --profile mempalace -- mempalace"

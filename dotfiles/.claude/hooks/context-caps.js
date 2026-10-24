@@ -46,14 +46,11 @@ function repoCaps(cwd) {
   let text;
   try {
     text = fs.readFileSync(path.join(cwd, ".config", "vwf.yaml"), "utf8");
-  }
-  catch {
+  } catch {
     return caps;
   }
   const lines = text.split("\n");
-  const start = lines.findIndex(l =>
-    /^\s*(execute_caps|autopilot_caps):\s*(#.*)?$/.test(l)
-  );
+  const start = lines.findIndex((l) => /^\s*(execute_caps|autopilot_caps):\s*(#.*)?$/.test(l));
   if (start === -1) {
     return caps;
   }
@@ -77,8 +74,7 @@ function repoCaps(cwd) {
 function readStdin() {
   try {
     return JSON.parse(fs.readFileSync(0, "utf8"));
-  }
-  catch {
+  } catch {
     return {};
   }
 }
@@ -138,8 +134,7 @@ function main() {
   let u;
   try {
     u = JSON.parse(fs.readFileSync(path.join(dir, `${sid}.json`), "utf8"));
-  }
-  catch {
+  } catch {
     return;
   } // statusline hasn't written yet
 
@@ -148,29 +143,21 @@ function main() {
   let directive = null;
   if ((u.sevenDayPct ?? 0) > sevenDCap) {
     level = 3;
-    directive =
-      `⛔ 7-DAY LIMIT CAP — weekly usage at ${u.sevenDayPct}% (cap ${sevenDCap}%), resets in `
-      + `${
-        humanIn(u.sevenDayResetsAt)
-      }. Finish ONLY the current step, then: (1) invoke the vwf:handoff `
+    directive = `⛔ 7-DAY LIMIT CAP — weekly usage at ${u.sevenDayPct}% (cap ${sevenDCap}%), resets in `
+      + `${humanIn(u.sevenDayResetsAt)}. Finish ONLY the current step, then: (1) invoke the vwf:handoff `
       + `skill with NO argument (it writes the reserved \`next\` handoff to mempalace and `
       + `docs/handoffs/next.md); (2) STOP and tell the user the 7-day limit is nearly exhausted and `
       + `work is halted until it resets — resume with /vwf:recall next. Do NOT start a new vwf stage `
       + `or keep coding.`;
-  }
-  else if ((u.fiveHourPct ?? 0) > fiveHCap) {
+  } else if ((u.fiveHourPct ?? 0) > fiveHCap) {
     level = 2;
-    directive =
-      `⚠ 5-HOUR LIMIT CAP — 5h usage at ${u.fiveHourPct}% (cap ${fiveHCap}%), resets in `
-      + `${
-        humanIn(u.fiveHourResetsAt)
-      }. Finish ONLY the current step, then: (1) invoke the vwf:handoff `
+    directive = `⚠ 5-HOUR LIMIT CAP — 5h usage at ${u.fiveHourPct}% (cap ${fiveHCap}%), resets in `
+      + `${humanIn(u.fiveHourResetsAt)}. Finish ONLY the current step, then: (1) invoke the vwf:handoff `
       + `skill with NO argument (it writes the reserved \`next\` handoff); (2) STOP and tell the user `
       + `work is paused until the 5-hour window resets (~${
         humanIn(u.fiveHourResetsAt)
       }) — resume with /vwf:recall next after reset. Do NOT continue now.`;
-  }
-  else if ((u.ctxPct ?? 0) > ctxCap) {
+  } else if ((u.ctxPct ?? 0) > ctxCap) {
     level = 1;
     directive = `⚠ CONTEXT CAP — context window at ${
       Math.round(
@@ -192,15 +179,13 @@ function main() {
   let last = 0;
   try {
     last = JSON.parse(fs.readFileSync(stateFile, "utf8")).level || 0;
-  }
-  catch { /* ignore */ }
+  } catch { /* ignore */ }
   if (level <= last) {
     return;
   }
   try {
     fs.writeFileSync(stateFile, JSON.stringify({ level, ts: Date.now() }));
-  }
-  catch { /* ignore */ }
+  } catch { /* ignore */ }
 
   emit(directive);
 }

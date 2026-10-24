@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+#MISE description="Setup the project: install precommit hooks, upgrade dependencies, clean up cache, etc."
+#MISE depends=["init"]
+
+set -e
+source "${MISE_PROJECT_ROOT}/.config/mise/tasks/_scripts/helpers"
+
+mise run setup:mise
+mise run setup:dprint
+mise run setup:precommit
+
+line_sep1
+print_success "Setup complete!"

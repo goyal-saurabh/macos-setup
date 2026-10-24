@@ -10,19 +10,21 @@ set -eu
 action="${1:-}"
 hook_input_file="$(mktemp "${TMPDIR:-/tmp}/herdr-claude-hook.XXXXXX")" || exit 0
 trap 'rm -f "$hook_input_file"' EXIT HUP INT TERM
-cat >"$hook_input_file" 2>/dev/null || true
+cat > "$hook_input_file" 2> /dev/null || true
 
 case "$action" in
-  working|idle|blocked|release) ;;
-  *) exit 0 ;;
+  working | idle | blocked | release) ;;
+  *)
+    exit 0
+    ;;
 esac
 
 [ "${HERDR_ENV:-}" = "1" ] || exit 0
 [ -n "${HERDR_SOCKET_PATH:-}" ] || exit 0
 [ -n "${HERDR_PANE_ID:-}" ] || exit 0
-command -v python3 >/dev/null 2>&1 || exit 0
+command -v python3 > /dev/null 2>&1 || exit 0
 
-HERDR_ACTION="$action" HERDR_HOOK_INPUT_FILE="$hook_input_file" python3 - <<'PY'
+HERDR_ACTION="$action" HERDR_HOOK_INPUT_FILE="$hook_input_file" python3 - << 'PY'
 import json
 import os
 import random

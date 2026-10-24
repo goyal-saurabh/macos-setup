@@ -4,7 +4,7 @@
 
 set -euo pipefail
 # shellcheck source=/dev/null
-source "${MISE_PROJECT_ROOT}/.config/mise/tasks/_scripts/_helpers"
+source "${MISE_PROJECT_ROOT}/.config/mise/tasks/_scripts/helpers"
 
 # Runs from the pre-commit framework's post-commit stage (see
 # .config/pre-commit-config.yaml), replacing graphify's own raw git hook. The
@@ -20,7 +20,7 @@ if [ "${GRAPHIFY_SKIP_HOOK:-0}" = "1" ]; then
   exit 0
 fi
 
-if ! command -v graphify >/dev/null 2>&1; then
+if ! command -v graphify > /dev/null 2>&1; then
   print_warn "graphify is not on PATH — graph not refreshed (mise use -g pipx:graphifyy@latest)"
   exit 0
 fi
@@ -42,7 +42,7 @@ for marker in MERGE_HEAD CHERRY_PICK_HEAD; do
 done
 
 if [ "$FORCE" = false ]; then
-  CHANGED="$(git diff --name-only HEAD~1 HEAD 2>/dev/null || git diff --name-only HEAD 2>/dev/null || true)"
+  CHANGED="$(git diff --name-only HEAD~1 HEAD 2> /dev/null || git diff --name-only HEAD 2> /dev/null || true)"
   # A commit that only touched graphify-out/ is the previous rebuild landing;
   # rebuilding again would loop.
   if [ -z "$(printf '%s\n' "$CHANGED" | grep -v '^graphify-out/' || true)" ]; then
@@ -62,6 +62,6 @@ FORCE_FLAG=""
 
 print_yellow "graphify: refreshing the graph in the background (log: ${LOG})"
 # Detached so the commit returns at once; a full rebuild can take minutes.
-nohup graphify update . $FORCE_FLAG >>"$LOG" 2>&1 </dev/null &
+nohup graphify update . $FORCE_FLAG >> "$LOG" 2>&1 < /dev/null &
 disown
 exit 0

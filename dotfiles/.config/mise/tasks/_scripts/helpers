@@ -61,7 +61,7 @@ print_warn() {
 # Print line separator
 line_sep() {
   local COL
-  COL=$(stty size 2>/dev/null | awk '{print $2}')
+  COL=$(stty size 2> /dev/null | awk '{print $2}')
   # Build a string of spaces equal to width, then replace with '='
   local line
   printf -v line '%*s' "${COL:-80}" ''

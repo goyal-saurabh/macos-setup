@@ -51,12 +51,11 @@ dotfiles, macOS defaults, login shell, Touch ID), and a `mise` task runner.
 Prefer `mise` for everything (`mise tasks` to list):
 
 ```shell
-mise run dotfiles:install       # (re)link dotfiles only (dotfiles:status shows drift)
-mise bootstrap status           # machine vs declared state (any directory)
-mise bootstrap --dry-run        # preview a full converge
-mise bootstrap packages status  # system vs [bootstrap.packages]
-mise run code:format      # format (dprint/taplo)
-mise run code:lint        # lint
+mise run dotfiles:install      # (re)link dotfiles only (dotfiles:status shows drift)
+mise bootstrap status          # machine vs declared state (any directory)
+mise bootstrap --dry-run       # preview a full converge
+mise bootstrap packages status # system vs [bootstrap.packages]
+mise run code:format           # format (dprint; global config in ~/.config/dprint)
 ```
 
 ## Conventions
@@ -64,7 +63,8 @@ mise run code:lint        # lint
 - **Commits**: conventional commits, types limited to `spec`, `ops`, `docs`,
   `merge` (see `.config/git-conventional-commits.yaml`). Most changes are
   `ops:`.
-- **Formatting**: dprint + taplo; pre-commit hooks run via `mise run code:lint`.
+- **Formatting**: dprint (global config `dotfiles/.config/dprint/dprint.jsonc`);
+  pre-commit hooks run via `mise run code:precommit`.
 - **Secrets**: managed by `fnox` via the macOS Keychain — never commit plaintext
   secrets.
 - **Dotfiles edits**: edit the file under `dotfiles/` at its `$HOME` path; it is

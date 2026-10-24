@@ -1,28 +1,12 @@
 [settings]
 activate_aggressive = true
-all_compile         = false
-env_shell_expand    = true
-gpg_verify          = true
-raw                 = true
-task.output         = "interleave"
-
-# Package manager settings
-npm.package_manager = "pnpm"
-python.compile      = false
-python.uv_venv_auto = "create|source"
-
-[tools]
-dprint     = { version = "latest" }
-node       = { version = "latest" }
-pnpm       = { version = "latest" }
-pre-commit = { version = "latest" }
-taplo      = { version = "latest" }
-
-[tasks.init]
-description = "Initialize mise tasks"
-hide        = true
-run         = "find $MISE_ORIGINAL_CWD/.config/mise/tasks/ -name '*' -type f -exec chmod 755 {} \\;"
-
-[shell_alias]
-lint  = "mise run code:lint"
-setup = "mise run setup:all"
+all_compile = false
+env_shell_expand = true
+gpg_verify = true
+lockfile = false
+minimum_release_age = "10h"
+os = "macos"
+raw = true
+status.missing_tools = "always"
+task.disable_spec_from_run_scripts = true
+task.output = "interleave"
