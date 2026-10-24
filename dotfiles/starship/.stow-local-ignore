@@ -1,4 +1,0 @@
-# Ignore .swp & .swo files
-
-^/\.config/\.starship\.toml\.swp$
-^/\.config/\.starship\.toml\.swo$
