@@ -112,3 +112,10 @@ Clarifying questions come **before** implementation, not after mistakes.
   `graphify hook uninstall`, add `post-commit` to `default_install_hook_types`,
   `pre-commit install --hook-type post-commit`, drop the `merge=graphify` line
   from `.gitattributes`
+
+# graphify
+
+- **graphify** (`~/.claude/skills/graphify/SKILL.md`) - any input to knowledge
+  graph. Trigger: `/graphify`
+  When the user types `/graphify`, use the installed graphify skill or
+  instructions before doing anything else.

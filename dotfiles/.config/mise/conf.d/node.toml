@@ -1,7 +1,7 @@
 [settings]
 # NodeJS settings
 node.compile = false
-npm.package_manager = "pnpm"
+npm.package_manager = "aube"
 
 [tools.node]
 version = "latest"
